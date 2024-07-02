@@ -4,4 +4,7 @@
 
 **/env/
 **/venv/
+**/.venv/
 **/.idea/
+
+**/test/
