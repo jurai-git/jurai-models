@@ -19,5 +19,6 @@
 
 ## Documentação
 - [ ] Criar arquivo `CODE_OF_CONDUCT.md` para o código de conduta.
+- [ ] Criar arquivo `USE_POLICY.md` para a política de uso.
 - [ ] Documentar o código de pré-processamento e modelagem.
 - [ ] Documentar testes de avaliação dos modelos de rede neural.
