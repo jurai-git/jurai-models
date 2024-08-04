@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+
+# run this file in terminal for further memory optimization.
+# python tools/fetch_dataset.py
+
 import os
 import pandas as pd
 import mysql.connector
@@ -57,5 +62,9 @@ def main():
 
     if connection:
         df = fetch(connection, config['db_table'])
-        save_to_csv(df, 'raw_dataset.csv')
+        save_to_csv(df, '../raw_dataset.csv')
         connection.close()
+
+
+if __name__ == '__main__':
+    main()
