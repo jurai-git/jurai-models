@@ -57,12 +57,18 @@ def save_to_csv(df, filename):
 
 
 def main():
+    dataset_dir = '../datasets'
+    dataset_file = f'{dataset_dir}/raw_dataset.csv'
+
     config = load_env_vars()
     connection = connect_to_database(config)
 
+    if not os.path.exists(dataset_dir):
+        os.makedirs(dataset_dir)
+
     if connection:
         df = fetch(connection, config['db_table'])
-        save_to_csv(df, '../raw_dataset.csv')
+        save_to_csv(df, dataset_file)
         connection.close()
 
 
