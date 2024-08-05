@@ -54,7 +54,7 @@ class MissingValueFinder:
 
 
 if __name__ == '__main__':
-    dataset_dir = '../datasets'
+    dataset_dir = '../../datasets'
     dataset_file = f'{dataset_dir}/raw_dataset.csv'
 
     if not os.path.exists(dataset_dir):
