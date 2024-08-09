@@ -47,6 +47,9 @@ class DatasetManager:
 
         return pd.read_csv(file, usecols=usecols)
 
+    def find_datasets(self):
+        return list(os.walk(ProjectPaths.DATASET_PATH.value))[0][2]
+
     def save_dataset(self, df: pd.DataFrame, dataset_stage: DatasetStages, version: Optional[str] = None):
         self.__raise_invalid_df(df)
         self.__raise_invalid_dataset_stage(dataset_stage)
