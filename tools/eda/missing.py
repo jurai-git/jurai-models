@@ -1,8 +1,7 @@
-import os
-
 import pandas as pd
 import matplotlib.pyplot as plt
 from pandas import DataFrame
+from tools.dataset_manager import DatasetManager, DatasetStages
 
 
 class MissingValueFinder:
@@ -54,16 +53,11 @@ class MissingValueFinder:
 
 
 if __name__ == '__main__':
-    dataset_dir = '../../datasets'
-    dataset_file = f'{dataset_dir}/raw_dataset.csv'
-
-    if not os.path.exists(dataset_dir):
-        os.makedirs(dataset_dir)
-
-    mvf = MissingValueFinder(pd.read_csv(dataset_file))
+    dataset_manager = DatasetManager()
+    mvf = MissingValueFinder(dataset_manager.read_dataset(DatasetStages.RAW_TYPE))
 
     if mvf.is_missing:
         mvf.identify_missing_values()
         mvf.summary()
         mvf.drop_missing()
-        mvf.dataframe.to_csv(dataset_file, index=False)
+        dataset_manager.save_dataset(mvf.dataframe, DatasetStages.RAW_TYPE)

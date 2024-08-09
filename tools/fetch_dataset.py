@@ -9,6 +9,7 @@ import mysql.connector
 from typing import Dict, Optional
 from dotenv import load_dotenv
 from mysql.connector import MySQLConnection, Error
+from tools.dataset_manager import DatasetManager, DatasetStages
 
 
 def load_env_vars() -> Dict[str, str]:
@@ -48,27 +49,13 @@ def fetch(connection, table_name) -> pd.DataFrame:
         return pd.DataFrame()
 
 
-def save_to_csv(df, filename):
-    try:
-        df.to_csv(filename, index=False, encoding='utf-8')
-        print(f'[ + ] {filename}')
-    except Exception as e:
-        print(f'Error saving CSV file: {e}')
-
-
 def main():
-    dataset_dir = '../datasets'
-    dataset_file = f'{dataset_dir}/raw_dataset.csv'
-
     config = load_env_vars()
     connection = connect_to_database(config)
 
-    if not os.path.exists(dataset_dir):
-        os.makedirs(dataset_dir)
-
     if connection:
         df = fetch(connection, config['db_table'])
-        save_to_csv(df, dataset_file)
+        DatasetManager().save_dataset(df, DatasetStages.RAW_TYPE, 'alpha')
         connection.close()
 
 
