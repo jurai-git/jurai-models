@@ -39,11 +39,13 @@ class DatasetManager:
         if not os.path.exists(path):
             os.makedirs(path)
 
-    def read_dataset(self, dataset_stage: DatasetStages, version: Optional[str] = None):
+    def read_dataset(self, dataset_stage: DatasetStages, version: Optional[str] = None, usecols=None) -> pd.DataFrame:
         self.__raise_invalid_dataset_stage(dataset_stage)
-        version = self.__validate_version(version)
 
-        return pd.read_csv(self.__project_paths.DATASET_FILE.value.format(dataset_stage.value, version))
+        version = self.__validate_version(version)
+        file = self.__project_paths.DATASET_FILE.value.format(dataset_stage.value, version)
+
+        return pd.read_csv(file, usecols=usecols)
 
     def save_dataset(self, df: pd.DataFrame, dataset_stage: DatasetStages, version: Optional[str] = None):
         self.__raise_invalid_df(df)
