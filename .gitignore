@@ -164,3 +164,15 @@ cython_debug/
 # JurAI
 internal_test/
 datasets/
+
+# TensorFlow/Keras
+*.h5
+*.keras
+*.pb
+
+# PyTorch
+*.pt
+*.pth
+
+# ONNX
+*.onnx
