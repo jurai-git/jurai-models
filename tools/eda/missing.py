@@ -1,21 +1,20 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from pandas import DataFrame
 from tools.dataset_manager import DatasetManager, DatasetStages
 
 
 class MissingValueFinder:
-    def __init__(self, df: DataFrame):
+    def __init__(self, df: pd.DataFrame):
         self.__df = df
         self.__missing_values = self.__df.isnull().sum()
 
     @property
-    def dataframe(self) -> DataFrame:
+    def dataframe(self) -> pd.DataFrame:
         return self.__df
 
     @dataframe.setter
-    def dataframe(self, value: DataFrame):
-        if not isinstance(value, DataFrame):
+    def dataframe(self, value: pd.DataFrame):
+        if not isinstance(value, pd.DataFrame):
             raise TypeError('Expected a pandas DataFrame')
         self.__df = value
 
