@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # run this file in terminal for further memory optimization.
-# python tools/fetch_dataset.py
+# python tools/dataset/fetch.py
 
 import os
 import pandas as pd
@@ -9,7 +9,7 @@ import mysql.connector
 from typing import Dict, Optional
 from dotenv import load_dotenv
 from mysql.connector import MySQLConnection, Error
-from tools.dataset_manager import DatasetManager
+from tools.dataset.manager import DatasetManager
 
 
 def load_env_vars() -> Dict[str, str]:
