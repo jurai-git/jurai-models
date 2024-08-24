@@ -9,7 +9,7 @@ import mysql.connector
 from typing import Dict, Optional
 from dotenv import load_dotenv
 from mysql.connector import MySQLConnection, Error
-from tools.dataset_manager import DatasetManager, DatasetStages
+from tools.dataset_manager import DatasetManager
 
 
 def load_env_vars() -> Dict[str, str]:
@@ -55,7 +55,7 @@ def main():
 
     if connection:
         df = fetch(connection, config['db_table'])
-        DatasetManager().save_dataset(df, DatasetStages.RAW_TYPE, 'alpha')
+        DatasetManager().save_dataset(df, 'raw_dataset.csv')
         connection.close()
 
 
