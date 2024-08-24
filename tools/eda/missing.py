@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from tools.dataset_manager import DatasetManager, DatasetStages
+from tools.dataset_manager import DatasetManager
 
 
 class MissingValueFinder:
@@ -49,14 +49,3 @@ class MissingValueFinder:
 
     def drop_missing(self):
         self.__df = self.__df.dropna()
-
-
-if __name__ == '__main__':
-    dataset_manager = DatasetManager()
-    mvf = MissingValueFinder(dataset_manager.read_dataset(DatasetStages.RAW_TYPE))
-
-    if mvf.is_missing:
-        mvf.identify_missing_values()
-        mvf.summary()
-        mvf.drop_missing()
-        dataset_manager.save_dataset(mvf.dataframe, DatasetStages.RAW_TYPE)
