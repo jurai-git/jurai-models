@@ -61,7 +61,6 @@ class DatasetManager:
         df.to_csv(dataset, index=False, encoding='utf-8')
 
     def save_training_history(self, model, history, model_name):
-        file = 'probability_model.log'
         self.create_paths(os.path.join(self.__project_paths.DATASET_LOGS.value, model_name))
         logs = self.find_logs(model_name)
 
@@ -74,7 +73,7 @@ class DatasetManager:
         else:
             num = 0
 
-        log = f'{file}.{num}'
+        log = f'log.{num}'
         log_path = os.path.join(self.__project_paths.DATASET_LOGS.value, model_name, log)
 
         emissions = pd.read_csv('emissions.csv').iloc[-1].to_dict()
