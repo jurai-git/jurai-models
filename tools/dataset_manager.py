@@ -1,3 +1,4 @@
+import json
 import os
 import re
 
@@ -79,10 +80,10 @@ class DatasetManager:
 
         df.to_csv(dataset_file, index=False, encoding='utf-8')
 
-    def save_training_history(self, history, model):
+    def save_training_history(self, model, history, model_name):
         file = 'probability_model.log'
-        self.create_paths(os.path.join(self.__project_paths.DATASET_LOGS.value, model))
-        logs = self.find_logs(model)
+        self.create_paths(os.path.join(self.__project_paths.DATASET_LOGS.value, model_name))
+        logs = self.find_logs(model_name)
 
         num = []
         if logs:
@@ -94,13 +95,24 @@ class DatasetManager:
             num = 0
 
         log = f'{file}.{num}'
-        log_path = os.path.join(self.__project_paths.DATASET_LOGS.value, model, log)
+        log_path = os.path.join(self.__project_paths.DATASET_LOGS.value, model_name, log)
+
+        emissions = pd.read_csv('emissions.csv').iloc[-1].to_dict()
 
         with open(log_path, 'w') as f:
-            f.write(f'probability model - training {num}\n')
+            f.write(f'{model_name} model - training {num}\n\n')
 
-            for key, value in history.history.items():
-                f.write(f'{key}: {value}\n')
+            for k, v in emissions.items():
+                f.write(f'{k}: {v}\n')
+
+            model_summary = []
+            model.summary(print_fn=lambda x: model_summary.append(x))
+            f.write("\nModel Summary:\n")
+            f.write('\n'.join(model_summary) + '\n\n')
+
+            f.write('Training History:\n')
+            for k, v in history.history.items():
+                f.write(f'{k}: {v}\n')
 
     def __raise_invalid_df(self, df: pd.DataFrame):
         if df is None or df.empty:
