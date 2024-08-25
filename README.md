@@ -4,7 +4,7 @@
 
 ---
 
-<h1 align="center">JurAI - Models</h1> <h2 align="center">Repositório oficial dos modelos de redes neurais do JurAI.</h2>
+<h1 align="center">JurAI - Models</h1> <h1 align="center">Repositório oficial dos modelos de redes neurais do JurAI.</h1>
 
 ## Descrição
 
@@ -28,6 +28,11 @@ git clone https://github.com/jurai-git/jurai-models.git
 cd jurai-models
 pip install -r requirements.txt
 ~~~
+
+## Tecnologias:
+* TensorFlow
+* Keras
+* PyTorch
 
 ## Licença
 
