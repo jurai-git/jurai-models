@@ -4,7 +4,7 @@
 
 ---
 
-<h1 align="center">JurAI - Models</h1> <h1 align="center">Repositório oficial dos modelos de redes neurais do JurAI.</h1>
+<h1 align="center">JurAI - Models</h1> <h2 align="center">Repositório oficial dos modelos de redes neurais do JurAI.</h2>
 
 ## Descrição
 
