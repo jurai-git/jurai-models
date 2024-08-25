@@ -29,6 +29,25 @@ cd jurai-models
 pip install -r requirements.txt
 ~~~
 
+## Configuração:
+### Bash
+1. Abra o projeto no terminal Linux, ou no git bash para Windows.
+2. Execute `chmod +x ./configure.sh` 
+3. Execute `./configure.sh <db_host> <db_user> <db_password> <db_name> <db_table>`
+
+### Manualmente
+1. Na raíz do projeto, crie um arquivo dotenv (.env) para as credenciais do banco de dados e o caminho da pasta de conjuntos de dados, assim como:
+    ~~~env
+    DB_HOST=localhost
+    DB_USER=root
+    DB_PASSWORD=root@123
+    DB_NAME=jurai
+    DB_TABLE=processos
+
+    PROJECT_PATH=~/JurAI/jurai-models
+    DATASET_PATH=~/JurAI/jurai-models/datasets
+    ~~~
+
 ## Tecnologias:
 * TensorFlow
 * Keras
