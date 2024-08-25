@@ -6,6 +6,15 @@
 
 <h1 align="center">JurAI - Models</h1> <h2 align="center">Repositório oficial dos modelos de redes neurais do JurAI.</h2>
 
+<div align="center">
+    
+![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
+![Keras](https://img.shields.io/badge/Keras-%23D00000.svg?style=for-the-badge&logo=Keras&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
+    
+</div>
+
 ## Descrição
 
 O JurAI é um projeto dedicado ao desenvolvimento de modelos de redes neurais voltados para a área jurídica. 
