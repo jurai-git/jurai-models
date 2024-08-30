@@ -176,3 +176,6 @@ datasets/
 
 # ONNX
 *.onnx
+
+# CodeCarbon
+emissions.csv
