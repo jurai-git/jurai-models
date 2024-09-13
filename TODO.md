@@ -1,4 +1,10 @@
-<h1 align="center">TODO</h1>
+<p align="center">
+  <img src="./assets/img/jurai-git.png"/>
+</p>
+
+---
+
+<h1 align="center"> JurAI - ToDo </h1>
 
 ---
 
