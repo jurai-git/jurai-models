@@ -4,7 +4,7 @@
 
 ---
 
-# Código de Conduta do JurAI
+<h1 align="center"> JurAI - Código de Conduta </h1>
 
 Nós, da comunidade **JurAI**, estamos comprometidos com a criação de um ambiente inclusivo, respeitoso e livre de assédio. Todos os membros, contribuidores e líderes da nossa comunidade se comprometem a interagir de maneira acolhedora e saudável, sem discriminação, e garantir que o JurAI seja um espaço seguro para todas as pessoas, independentemente de idade, características físicas, habilidades, identidade de gênero, orientação sexual, nível de experiência, ou qualquer outra característica pessoal.
 
