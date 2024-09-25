@@ -28,3 +28,6 @@ class ModelArgs:
     vocab_size: int = 90_000
     max_batch_size: int = 48
     max_seq_len: int = 2048
+    max_target_len: int = 128
+    learning_rate: int = 1e-4
+    epochs: int = 10
