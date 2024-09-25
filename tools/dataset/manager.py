@@ -3,6 +3,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from enum import Enum
 from strong_typing.schema import json_schema_type
+import torch
 
 load_dotenv()
 
@@ -27,6 +28,10 @@ class DatasetManager:
 
         self.create_paths(self.__project_paths.DATASET_PATH.value)
         self.create_paths(self.__project_paths.DATASET_LOGS.value)
+
+    @property
+    def dataset_path(self):
+        return self.__project_paths.DATASET_PATH.value
 
     def create_paths(self, path):
         if not os.path.exists(path):
@@ -60,18 +65,15 @@ class DatasetManager:
 
         df.to_csv(dataset, index=False, encoding='utf-8')
 
-    def save_training_history(self, model, history, model_name):
+    def save_training_history(self, model, history, model_name, additional_info=None):
         self.create_paths(os.path.join(self.__project_paths.DATASET_LOGS.value, model_name))
         logs = self.find_logs(model_name)
 
-        num = []
+        num = 0
         if logs:
-            for log in logs:
-                last_dot_index = log.rfind('.')
-                num += log[last_dot_index + 1:]
-            num = int(max(num)) + 1
-        else:
-            num = 0
+            num_list = [int(log.split('.')[-1]) for log in logs if log.split('.')[-1].isdigit()]
+            if num_list:
+                num = max(num_list) + 1
 
         log = f'log.{num}'
         log_path = os.path.join(self.__project_paths.DATASET_LOGS.value, model_name, log)
@@ -81,17 +83,38 @@ class DatasetManager:
         with open(log_path, 'w') as f:
             f.write(f'{model_name} model - training {num}\n\n')
 
+            f.write('Emissions:\n')
             for k, v in emissions.items():
                 f.write(f'{k}: {v}\n')
+            f.write("\n")
+
+            if additional_info:
+                for section, dictionary in additional_info.items():
+                    f.write(f'{section}:\n')
+                    for k, v in dictionary.items():
+                        f.write(f'{k}: {v}\n')
+                    f.write('\n')
 
             model_summary = []
-            model.summary(print_fn=lambda x: model_summary.append(x))
-            f.write("\nModel Summary:\n")
+            if hasattr(model, 'summary'):
+                model.summary(print_fn=lambda x: model_summary.append(x))
+            elif isinstance(model, torch.nn.Module):
+                model_summary.append(str(model))
+            else:
+                raise TypeError('Unsupported model type. Model should be a Keras or PyTorch model.')
+
+            f.write('Model Summary:\n')
             f.write('\n'.join(model_summary) + '\n\n')
 
             f.write('Training History:\n')
-            for k, v in history.history.items():
-                f.write(f'{k}: {v}\n')
+            if hasattr(history, 'history'):
+                for k, v in history.history.items():
+                    f.write(f'{k}: {v}\n')
+            elif isinstance(history, dict):
+                for k, v in history.items():
+                    f.write(f'{k}: {v}\n')
+            else:
+                raise TypeError('Unsupported history type. History should be a Keras history object or a dictionary.')
 
     def __raise_invalid_df(self, df: pd.DataFrame):
         if df is None or df.empty:
