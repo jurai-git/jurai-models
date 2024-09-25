@@ -43,7 +43,7 @@ def train(epoch, tokenizer, model, device, loader, optimizer, scheduler):
         total_loss += loss.item()
 
         if step % 10 == 0:
-            print(f'Epoch: {epoch}, Step: {step}, Loss: {loss.item()}')
+            print(f'Epoch: {epoch}, Batch: {step}/{len(loader)}, Loss: {loss.item()}')
 
         collect_garbage()
 
@@ -91,7 +91,7 @@ def load_model_args() -> ModelArgs:
     model_args.max_seq_len = 512
     model_args.max_target_len = 256
     model_args.max_batch_size = 4
-    model_args.epochs = 8
+    model_args.epochs = 4
     model_args.learning_rate = 1e-4
 
     return model_args
@@ -109,7 +109,7 @@ def load_dataset(tokenizer, model_args: ModelArgs):
     if df is None or df.empty:
         raise ValueError('Invalid Dataset.')
 
-    train_size = 0.8
+    train_size = 0.75
     train_dataset = df.sample(frac=train_size, random_state=200)
     val_dataset = df.drop(train_dataset.index).reset_index(drop=True)
     train_dataset = train_dataset.reset_index(drop=True)
@@ -151,7 +151,7 @@ def main():
             validate(epoch, tokenizer, model, device, val_loader)
     except Exception as e:
         print(e)
-        print(f'{'-' * 10} Saving Model... {'-' * 10}')
+        print(f'{"-" * 10} Saving Model... {"-" * 10}')
 
     model.save_pretrained('./t5_finetuned_model')
     tokenizer.save_pretrained('./t5_finetuned_tokenizer')
