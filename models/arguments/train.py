@@ -1,11 +1,13 @@
 import gc
 import torch
+from codecarbon import EmissionsTracker
 from sklearn.metrics import accuracy_score
 from torch.utils.data import DataLoader
 from transformers import T5Tokenizer, T5ForConditionalGeneration, AdamW, PreTrainedModel, PreTrainedTokenizerBase
 from transformers import get_linear_schedule_with_warmup
 from models.dataset import CustomDataset
 from models.datatypes import ModelArgs
+from models.probability.train import plot_training_history
 from tools.dataset.manager import DatasetManager
 
 
@@ -20,6 +22,7 @@ def load_model() -> PreTrainedModel:
 def collect_garbage():
     gc.collect()
     torch.cuda.empty_cache()
+
 
 def train(epoch, tokenizer, model, device, loader, optimizer, scheduler):
     model.train()
@@ -49,6 +52,7 @@ def train(epoch, tokenizer, model, device, loader, optimizer, scheduler):
 
     avg_loss = total_loss / len(loader)
     print(f'Epoch: {epoch}, Average Training Loss: {avg_loss}')
+    return avg_loss
 
 
 def validate(epoch, tokenizer, model, device, loader):
@@ -127,6 +131,9 @@ def load_dataset(tokenizer, model_args: ModelArgs):
 
 
 def main():
+    tracker = EmissionsTracker('arguments')
+    tracker.start()
+
     tokenizer = load_tokenizer()
     model = load_model()
     model_args = load_model_args()
@@ -143,18 +150,31 @@ def main():
         num_training_steps=total_steps
     )
 
+    history = {
+        'train_loss': [],
+        'val_loss': []
+    }
+
     try:
         collect_garbage()
 
         for epoch in range(model_args.epochs):
-            train(epoch, tokenizer, model, device, train_loader, optimizer, scheduler)
-            validate(epoch, tokenizer, model, device, val_loader)
+            train_loss = train(epoch, tokenizer, model, device, train_loader, optimizer, scheduler)
+            val_loss = validate(epoch, tokenizer, model, device, val_loader)
+
+            history['train_loss'].append(train_loss)
+            history['val_loss'].append(val_loss)
     except Exception as e:
         print(e)
         print(f'{"-" * 10} Saving Model... {"-" * 10}')
 
     model.save_pretrained('./t5_finetuned_model')
     tokenizer.save_pretrained('./t5_finetuned_tokenizer')
+
+    tracker.stop()
+
+    DatasetManager().save_training_history(model, history, 'arguments')
+    plot_training_history(history)
 
 
 if __name__ == '__main__':
