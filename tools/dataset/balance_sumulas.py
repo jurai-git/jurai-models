@@ -58,7 +58,7 @@ def add_entries(df, target_df, condition, limit):
     return pd.concat([target_df, additional_entries])
 
 
-def balance_probability_dataset(df, as_numpy=False):
+def balance_dataset(df, as_numpy=False):
     df_0 = df[df['sumula'] == 0]
     df_1 = df[df['sumula'] == 1]
     df_2 = df[df['sumula'] == 2]
@@ -93,7 +93,7 @@ def prepare_dataset(df, filename, min_length, max_length, sumula_limit=32446):
 
     df = filter_by_length(df, 'ementa', min_length, max_length)
     df = classify_sumulas(df, sumula_limit)
-    df = balance_probability_dataset(df)
+    df = balance_dataset(df)
 
     print(f'len: {len(df)}')
     print(df['sumula'].value_counts())
@@ -102,8 +102,7 @@ def prepare_dataset(df, filename, min_length, max_length, sumula_limit=32446):
 
 
 def main():
-    dataset_manager = DatasetManager()
-    df = dataset_manager.read_dataset('raw_dataset.csv', usecols=['ementa', 'sumula'])
+    df = DatasetManager().read_dataset('raw_dataset.csv', usecols=['ementa', 'sumula'])
 
     prepare_dataset(df, 'arguments_dataset.csv', 256, 1280)
     prepare_dataset(df, 'probability_dataset.csv', 256, 1024)
