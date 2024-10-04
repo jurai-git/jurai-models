@@ -9,7 +9,7 @@ from tools.dataset.manager import DatasetManager
 def add_dataset(args):
     if args.dataset and os.path.isfile(args.dataset):
         path = DatasetManager().dataset_path
-        shutil.move(args.dataset, path)
+        shutil.move(args.dataset, f'{path}/{args.model}_dataset.csv')
         return
     logging.error(f'Invalid dataset: {args.dataset}')
 
@@ -44,6 +44,7 @@ def main():
 
     parser_dataset = subparsers.add_parser('add', help='Add dataset')
     parser_dataset.add_argument('--dataset', required=True, help='Path to the training dataset')
+    parser_dataset.add_argument('--model', choices=['probability', 'arguments'], required=True, help='Model to be trained')
     parser_dataset.set_defaults(func=add_dataset)
 
     parser_train = subparsers.add_parser('train', help='Train model')
