@@ -38,13 +38,13 @@ cd jurai-models
 pip install -r requirements.txt
 ~~~
 
-## Configuração:
-### Bash
+### Configuração:
+#### Bash
 1. Abra o projeto no terminal Linux, ou no git bash para Windows.
 2. Execute `chmod +x ./configure.sh` 
 3. Execute `./configure.sh <db_host> <db_user> <db_password> <db_name> <db_table>`
 
-### Manualmente
+#### Manualmente
 1. Na raíz do projeto, crie um arquivo dotenv (.env) para as credenciais do banco de dados e o caminho da pasta de conjuntos de dados, assim como:
     ~~~env
     DB_HOST=localhost
@@ -56,6 +56,12 @@ pip install -r requirements.txt
     PROJECT_PATH=~/JurAI/jurai-models
     DATASET_PATH=~/JurAI/jurai-models/datasets
     ~~~
+
+### Treinamento
+
+1. No terminal, execute `python main.py add --dataset [seu conjunto de dados] --model [arguments||probability]`
+2. Comece o treinamento com `python main.py train --model [arguments||probability] `
+
 
 ## Tecnologias:
 * TensorFlow
